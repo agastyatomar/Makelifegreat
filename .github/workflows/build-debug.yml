@@ -12,6 +12,9 @@ permissions:
 
 jobs:
   build:
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      PATH: /usr/local/lib/android/sdk/cmdline-tools/latest/bin:/usr/local/lib/android/sdk/platform-tools:${PATH}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
