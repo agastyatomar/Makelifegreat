@@ -1,0 +1,29 @@
+name: Materialize full MakeLifeGreat source
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Materialize transformed source
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync file
+          chmod +x scripts/bootstrap-upstream.sh
+          scripts/bootstrap-upstream.sh
+          rm -rf customizations
+          git config user.name "Aadi"
+          git config user.email "aadi@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "Materialize complete MakeLifeGreat source"
+          git push origin HEAD:main
