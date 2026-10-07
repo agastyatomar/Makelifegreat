@@ -13,7 +13,6 @@ jobs:
   release:
     env:
       ANDROID_HOME: /usr/local/lib/android/sdk
-      PATH: /usr/local/lib/android/sdk/cmdline-tools/latest/bin:/usr/local/lib/android/sdk/platform-tools:${PATH}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,8 +23,8 @@ jobs:
           distribution: temurin
           java-version: "17"
       - name: Install Android SDK packages
-        run: yes | sdkmanager --licenses >/dev/null 2>&1 || true
-      - run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses >/dev/null 2>&1 || true
+      - run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;36.0.0"
       - run: chmod +x gradlew
       - name: Build unsigned release APK
         run: ./gradlew --no-daemon assembleRelease
