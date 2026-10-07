@@ -14,11 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Bootstrap Android source
+        run: bash scripts/bootstrap-upstream.sh
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "11"
-          cache: gradle
       - uses: android-actions/setup-android@v3
       - run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
       - run: chmod +x gradlew
